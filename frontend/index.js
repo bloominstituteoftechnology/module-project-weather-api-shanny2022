@@ -3,21 +3,62 @@ async function moduleProject4() {
   // 👇 WORK WORK BELOW THIS LINE 👇
   const footer = document.querySelector('footer')
   const currentYear = new Date().getFullYear()
-  footer.textContent = `© BLOOM INSTITUTE OF TECHNOLOGY ${currentYear}`
+  // Get the dropdown element
+  // Remove the duplicate declaration of 'dropdown'
+  // Hide the weather widget
+  const weatherWidget = document.getElementById('weatherWidget');
+  weatherWidget.style.display = 'none';
 
-  let descriptions = [
-    ["Sunny", "☀️"],
-    ["Cloudy", "☁️"],
-    ["Rainy", "🌧️"],
-    ["Thunderstorm", "⛈️"],
-    ["Snowy", "❄️"],
-    ["Partly Cloudy", "⛅️"]
-  ]
+  // Show loading indicator
+  const infoParagraph = document.querySelector('p.info');
+  // Move the declaration of apiUrl outside of the event listener
+  const apiUrl = `https://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q=${selectedCity}`;
 
-  // 👉 Tasks 1 - 5 go here
+  axios.get(apiUrl)
+    .then(response => {
+      // Handle successful response here
+      console.log(response.data);
+    })
+    .catch(error => {
+      // Handle error here
+      console.error(error.message);
+    });
 
-  // 👆 WORK WORK ABOVE THIS LINE 👆
+  axios.get(apiUrl)
+    .then(response => {
+      // Handle successful response here
+      console.log(response.data);
+    })
+    .catch(error => {
+      // Handle error here
+      console.error(error.message);
+    });
+  then(response => {
+    // Handle successful response here
+    console.log(response.data);
+  })
+  .catch(error => {
+    // Handle error here
+    console.error(error.message);
+  });
 
+  // Inside your event listener
+
+// Handle data fetching success
+function handleDataFetchingSuccess(data) {
+  // Empty out the info paragraph
+  infoParagraph.textContent = '';
+
+  // Re-enable the dropdown
+  dropdown.disabled = false;
+
+  // Make the weather widget visible again
+weatherWidget.style.display = 'block';
+
+// Transform the weather description into emoji
+// Add your code here
+
+// 👆 WORK WORK ABOVE THIS LINE 👆
 }
 
 // ❗ DO NOT CHANGE THE CODE  BELOW

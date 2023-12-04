@@ -93,6 +93,7 @@ Make sure to read and follow the instructions below carefully. Good luck!
 
 </details>
 
+
 #### 👉 TASK 2 - Add an event listener to the dropdown
 
 <details>
@@ -134,6 +135,18 @@ Always working inside your event listener:
   ---
 
 </details>
+// Inside your event listener
+// Disable the dropdown
+const dropdown = document.getElementById('cityDropdown');
+dropdown.disabled = true;
+
+// Hide the weather widget
+const weatherWidget = document.getElementById('weatherWidget');
+weatherWidget.style.display = 'none';
+
+// Show loading indicator
+const infoParagraph = document.querySelector('p.info');
+infoParagraph.textContent = 'Fetching weather data...';
 
 #### 👉 TASK 4 - Launch a request to the weather API
 
@@ -158,47 +171,47 @@ Always working inside your event listener:
 
 </details>
 
-#### 👉 TASK 5 - Handle data fetching success
+// Inside your event listener
 
-<details>
-  <summary>Click to read</summary>
+// Handle data fetching success
+function handleDataFetchingSuccess(data) {
+  // Empty out the info paragraph
+  infoParagraph.textContent = '';
 
-  ---
+  // Re-enable the dropdown
+  dropdown.disabled = false;
 
-Now that the data is available, some house-keeping operations are needed before we start working with the weather data:
+  // Make the weather widget visible again
+  weatherWidget.style.display = 'block';
 
-1. Empty out the text content of **p.info**.
+  // Transform the weather description into emoji
+  let descriptions = [
+    ["Sunny", "☀️"],
+    ["Cloudy", "☁️"],
+    ["Rainy", "🌧️"],
+    ["Thunderstorm", "⛈️"],
+    ["Snowy", "❄️"],
+    ["Partly Cloudy", "⛅️"],
+  ];
 
-1. Re-enable the **dropdown**.
+  let weatherDescription = data.weather_description;
+  let emoji = descriptions.find(([description]) => description === weatherDescription);
+  let transformedDescription = emoji ? emoji[1] : '';
 
-1. Modify the inline style on the **div#weatherWidget** to make the element visible again.
+  // Update the DOM with the transformed data
+  // Replace the placeholder information with the actual data
+  document.getElementById('cityName').textContent = data.city_name;
+  document.getElementById('date').textContent = formatDate(data.date);
+  document.getElementById('weatherDescription').textContent = transformedDescription;
+  document.getElementById('temperature').textContent = data.temperature + '°C';
+  document.getElementById('humidity').textContent = data.humidity + '%';
+}
 
-Finally, the main course! Use the API data to inject the correct information into the DOM, replacing the "placeholder" information in the HTML.
-
-Raw JSON **rarely can be used in the DOM unchanged**. More often than not, you'll need to transform the data before updating the DOM.
-
-For example, the `weather_description` needs to be **translated into the proper emoji**, by using a mapping object found inside `index.js`:
-
-```js
-let descriptions = [
-  ["Sunny", "☀️"],
-  ["Cloudy", "☁️"],
-  ["Rainy", "🌧️"],
-  ["Thunderstorm", "⛈️"],
-  ["Snowy", "❄️"],
-  ["Partly Cloudy", "⛅️"],
-]
-```
-
-Use your JavaScript powers to extract the emoji for a given `weather_description`.
-
-Another complication is that the dates are in the `yyyy-mm-dd` format. JavaScript can be used to figure out which day of the week a given date corresponds to. But since time-related code can be particularly tricky, it's OK to ask ChatGPT for a bit of help here, as long as you study the code it produces to the point where you can re-write it yourself.
-
-❗ Match the mock exactly! If, for example, an element should contain the text "Thursday", then the text "thurday" is incorrect. Be very detail-oriented.
-
-  ---
-
-</details>
+// Format the date to display the day of the week
+function formatDate(date) {
+  const options = { weekday: 'long' };
+  return new Date(date).toLocaleDateString('en-US', options);
+}
 
 ## FAQ
 
